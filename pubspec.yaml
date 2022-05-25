@@ -32,10 +32,14 @@ dependencies:
   animated_splash_screen: ^1.2.0
   flutter_onboarding_screen: ^2.0.2
   flutter_svg: ^1.0.3
-  get:
   flutter_screenutil:
   provider:
   persistent_bottom_nav_bar: ^4.0.2
+  cupertino_stepper: ^0.2.1
+  circular_countdown_timer: ^0.2.1
+  http: ^0.13.4
+  dio: ^4.0.4
+  shared_preferences: ^2.0.15
 
 
 

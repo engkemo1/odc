@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:odc/constants.dart';
+import 'package:odc/Utils/constants.dart';
+import 'package:odc/views/HomeScreen.dart';
 import 'package:odc/views/forgtPassword/ForgetPassword.dart';
-import 'package:odc/widget/NavBar.dart';
+import 'package:provider/provider.dart';
 
+import '../../controllers/login_provider.dart';
+import '../../controllers/user_provider.dart';
+import '../../widget/snackBar.dart';
 import 'SignUp.dart';
 
 class SignIn extends StatefulWidget {
@@ -13,10 +17,17 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+
+
+  final TextEditingController email = TextEditingController();
+
+  final TextEditingController pass = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 
+      key: _globalKey,
       body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
         return SingleChildScrollView(
@@ -99,8 +110,44 @@ class _SignInState extends State<SignIn> {
                               width: 335.0,
                               height: 56.0,
                               child: GestureDetector(
-                                onTap: () => Navigator.pushNamed(
-                                    context, NavBar.routeName),
+                                onTap: () async{
+                                  if (_globalKey.currentState!
+                                      .validate()) {
+                                    try {
+                                      await context
+                                          .read<LoginProvider>()
+                                          .loginButton(
+                                          globalKey: _globalKey,
+                                          context: context,
+                                          email: email.text
+                                              .trim(),
+                                          password:
+                                          email.text);
+
+                                      await context
+                                          .read<UserProvider>()
+                                          .getUserData(
+                                          email.text,
+                                          pass.text);
+
+                                      if (context
+                                          .read<UserProvider>()
+                                          .userData
+                                          ?.data
+                                          ?.first !=
+                                          null)
+                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>HomeScreen()));
+                                      else
+                                        customSnackBar(
+                                            text:
+                                            'something went wrong',
+                                            context: context);
+                                    } catch (e) {
+                                      print(e.toString());
+                                    }
+                                  }
+
+                                },
                                 child: Container(
                                     width: 335.0,
                                     height: 56.0,
@@ -168,6 +215,10 @@ class _SignInState extends State<SignIn> {
 
                                 ),
                                child: TextFormField(
+                                 obscureText: false,
+                                 keyboardType:
+                                 TextInputType.visiblePassword,
+                                 controller: pass,
                                  decoration: InputDecoration(
                                    contentPadding: EdgeInsets.all(15),
                                    enabledBorder: InputBorder.none,
@@ -194,6 +245,8 @@ class _SignInState extends State<SignIn> {
 
                                 ),
                                 child: TextFormField(
+                                  controller: email,
+                                  keyboardType: TextInputType.emailAddress,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(15),
                                     enabledBorder: InputBorder.none,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:odc/views/CourseDetails.dart';
+import 'package:odc/views/Courses/CourseDetails.dart';
 
 class MyCourses extends StatelessWidget {
   static const routeName = '/my_courses';

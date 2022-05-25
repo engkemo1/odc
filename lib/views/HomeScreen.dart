@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:odc/New_courses.dart';
-import 'package:odc/constants.dart';
-import 'package:odc/views/Authentication/LogIn.dart';
-import 'package:odc/views/Authentication/SignUp.dart';
+import 'package:odc/views/Courses/New_courses.dart';
+import 'package:odc/Utils/constants.dart';
 import 'package:odc/views/Catigories.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+
+import 'CourseExam/Course_Exam1.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "/home_screen";
@@ -107,7 +106,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             size: 30,
                           ),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=>CourseExam1()));
+                        },
                       )
                     ],
                   ),

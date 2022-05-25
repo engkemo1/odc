@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:odc/constants.dart';
+import 'package:odc/Utils/constants.dart';
 class OtpInput extends StatelessWidget {
   final TextEditingController controller;
   final bool autoFocus;

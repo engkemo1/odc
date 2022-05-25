@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../constants.dart';
+import '../../Utils/constants.dart';
 import '../../widget/Otp_input.dart';
 import 'CreatPassword.dart';
 

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../constants.dart';
+import '../../Utils/constants.dart';
+import '../../controllers/register_provider.dart';
 import 'LogIn.dart';
 
 class SignUp extends StatefulWidget {
@@ -12,12 +14,34 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  final _formKey = GlobalKey<FormState>();
-  var checkedValue=false;
+  final TextEditingController name = TextEditingController();
+
+  final TextEditingController email = TextEditingController();
+
+  final TextEditingController pass = TextEditingController();
+
+  final TextEditingController phone = TextEditingController();
+
+  final TextEditingController address = TextEditingController();
+  var acceptTerms = '';
+
+  @override
+  void dispose() {
+    super.dispose();
+    name.dispose();
+    email.dispose();
+    pass.dispose();
+    pass.dispose();
+  }
+
+
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  var checkedValue = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _globalKey,
       body: SafeArea(
           child: Container(
         child: ListView(
@@ -79,11 +103,10 @@ class _SignUpState extends State<SignUp> {
                     ],
                   )),
             ),
-            
             Container(
                 margin: EdgeInsets.all(30),
                 child: Form(
-                  key: _formKey,
+                  key: _globalKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -96,6 +119,8 @@ class _SignUpState extends State<SignUp> {
                           color: Color.fromARGB(255, 236, 236, 236),
                         ),
                         child: TextFormField(
+                          keyboardType: TextInputType.name,
+                          controller: name,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(15),
                             enabledBorder: InputBorder.none,
@@ -113,6 +138,8 @@ class _SignUpState extends State<SignUp> {
                           color: Color.fromARGB(255, 236, 236, 236),
                         ),
                         child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          controller: email,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(15),
                             enabledBorder: InputBorder.none,
@@ -130,6 +157,9 @@ class _SignUpState extends State<SignUp> {
                           color: Color.fromARGB(255, 236, 236, 236),
                         ),
                         child: TextFormField(
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: true,
+                          controller: pass,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(15),
                             enabledBorder: InputBorder.none,
@@ -147,6 +177,8 @@ class _SignUpState extends State<SignUp> {
                           color: Color.fromARGB(255, 236, 236, 236),
                         ),
                         child: TextFormField(
+                          keyboardType: TextInputType.phone,
+                          controller: phone,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(15),
                             enabledBorder: InputBorder.none,
@@ -164,6 +196,8 @@ class _SignUpState extends State<SignUp> {
                           color: Color.fromARGB(255, 236, 236, 236),
                         ),
                         child: TextFormField(
+                          controller: address,
+                          keyboardType: TextInputType.streetAddress,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(15),
                             enabledBorder: InputBorder.none,
@@ -176,8 +210,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 )),
             CheckboxListTile(
-              title:
-              RichText(
+              title: RichText(
                   overflow: TextOverflow.visible,
                   textAlign: TextAlign.left,
                   text: const TextSpan(
@@ -193,14 +226,14 @@ class _SignUpState extends State<SignUp> {
                       TextSpan(
                         text: "Do you agree to our  ",
                         style: TextStyle(
-                          height: 1.171875,
-                          fontSize: 12.0,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black
+                            height: 1.171875,
+                            fontSize: 12.0,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black
 
-                          /* letterSpacing: 0.0, */
-                        ),
+                            /* letterSpacing: 0.0, */
+                            ),
                       ),
                       TextSpan(
                         text: ''' Privacy Policy''',
@@ -214,7 +247,6 @@ class _SignUpState extends State<SignUp> {
                           /* letterSpacing: 0.0, */
                         ),
                       ),
-
                     ],
                   )),
               value: checkedValue,
@@ -223,18 +255,17 @@ class _SignUpState extends State<SignUp> {
                   checkedValue = newValue!;
                 });
               },
-              controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+              controlAffinity:
+                  ListTileControlAffinity.leading, //  <-- leading Checkbox
             ),
             GestureDetector(
-              onTap: () => Navigator.pushNamed(
-                  context, SignUp.routeName),
+              onTap: () => Navigator.pushNamed(context, SignUp.routeName),
               child: Container(
-                margin: EdgeInsets.only(left: 30,right: 30,bottom: 20),
+                  margin: EdgeInsets.only(left: 30, right: 30, bottom: 20),
                   width: 335.0,
                   height: 56.0,
                   decoration: BoxDecoration(
-                      borderRadius:
-                      BorderRadius.circular(10.0),
+                      borderRadius: BorderRadius.circular(10.0),
                       color: ColorHelp.orange),
                   child: Center(
                     child: Text(
@@ -249,7 +280,7 @@ class _SignUpState extends State<SignUp> {
                   )),
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 20),
+                margin: EdgeInsets.only(bottom: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -266,12 +297,31 @@ class _SignUpState extends State<SignUp> {
                           color: Color.fromARGB(255, 0, 0, 0),
                           decoration: TextDecoration.none
 
-                        /* letterSpacing: 0.0, */
-                      ),
+                          /* letterSpacing: 0.0, */
+                          ),
                     ),
                     GestureDetector(
-                      onTap: () => Navigator.pushNamed(
-                          context, SignIn.routeName),
+                      onTap: () async{
+                        if (checkedValue == false) {
+                          setState(() {
+                            acceptTerms = 'please agree policy privacy';
+                          });
+                        } else {
+                          setState(() {
+                            acceptTerms = '';
+                          });
+                          return await context
+                              .read<RegisterProvider>()
+                              .registerButton(
+                                globalKey: _globalKey,
+                                context: context,
+                                name: name.text,
+                                email: email.text,
+                                phone: phone.text,
+                                password: pass.text,
+                              );
+                        }
+                      },
                       child: Text(
                         '''Log In''',
                         overflow: TextOverflow.visible,
@@ -284,8 +334,8 @@ class _SignUpState extends State<SignUp> {
                             color: Color.fromARGB(255, 255, 102, 0),
                             decoration: TextDecoration.none
 
-                          /* letterSpacing: 0.0, */
-                        ),
+                            /* letterSpacing: 0.0, */
+                            ),
                       ),
                     )
                   ],

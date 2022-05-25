@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:odc/Profile.dart';
 import 'package:odc/views/Catigories.dart';
-import 'package:odc/views/MyCourses.dart';
+import 'package:odc/views/Courses/MyCourses.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-import '../constants.dart';
+import '../Utils/constants.dart';
 import '../views/Authentication/LogIn.dart';
 import '../views/HomeScreen.dart';
 class NavBar extends StatelessWidget {

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:odc/views/forgtPassword/CreatPassword.dart';
 
-import '../../constants.dart';
+import '../../Utils/constants.dart';
 import '../Authentication/SignUp.dart';
 import 'VerifyYourEmail.dart';
 class ForgetPassword extends StatelessWidget {
