@@ -3,7 +3,7 @@ import 'package:flutter_onboarding_screen/OnbordingData.dart';
 import 'package:flutter_onboarding_screen/flutteronboardingscreens.dart';
 import 'package:odc/views/Authentication/LogIn.dart';
 
-class OnBoardingScreen extends StatelessWidget {
+class   OnBoardingScreen extends StatelessWidget {
   static const routeName = "/Board";
 
   final List<OnbordingData> list = [

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:odc/Utils/constants.dart';
-import 'package:odc/views/HomeScreen.dart';
 import 'package:odc/views/forgtPassword/ForgetPassword.dart';
-import 'package:provider/provider.dart';
 
-import '../../controllers/login_provider.dart';
-import '../../controllers/user_provider.dart';
-import '../../widget/snackBar.dart';
+
+import '../../controllers/auth.dart';
 import 'SignUp.dart';
 
 class SignIn extends StatefulWidget {
@@ -17,14 +16,22 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
   final TextEditingController email = TextEditingController();
 
   final TextEditingController pass = TextEditingController();
+  final authController = Get.find<AuthController>();
+@override
+  void initState() {
+
+  // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
 
       key: _globalKey,
@@ -111,42 +118,10 @@ class _SignInState extends State<SignIn> {
                               height: 56.0,
                               child: GestureDetector(
                                 onTap: () async{
-                                  if (_globalKey.currentState!
-                                      .validate()) {
-                                    try {
-                                      await context
-                                          .read<LoginProvider>()
-                                          .loginButton(
-                                          globalKey: _globalKey,
-                                          context: context,
-                                          email: email.text
-                                              .trim(),
-                                          password:
-                                          email.text);
 
-                                      await context
-                                          .read<UserProvider>()
-                                          .getUserData(
-                                          email.text,
-                                          pass.text);
-
-                                      if (context
-                                          .read<UserProvider>()
-                                          .userData
-                                          ?.data
-                                          ?.first !=
-                                          null)
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>HomeScreen()));
-                                      else
-                                        customSnackBar(
-                                            text:
-                                            'something went wrong',
-                                            context: context);
-                                    } catch (e) {
-                                      print(e.toString());
-                                    }
-                                  }
-
+                                  authController.loginMethod(
+                                      email.text.trim(),
+                                      pass.text);
                                 },
                                 child: Container(
                                     width: 335.0,
@@ -215,7 +190,8 @@ class _SignInState extends State<SignIn> {
 
                                 ),
                                child: TextFormField(
-                                 obscureText: false,
+                                 obscureText:                               authController.isVisibilty ? false : true,
+
                                  keyboardType:
                                  TextInputType.visiblePassword,
                                  controller: pass,
@@ -223,7 +199,18 @@ class _SignInState extends State<SignIn> {
                                    contentPadding: EdgeInsets.all(15),
                                    enabledBorder: InputBorder.none,
 
-                                   suffixIcon: Icon(Icons.remove_red_eye_outlined),
+                                 suffixIcon: IconButton(
+                                     onPressed: () {
+                               authController.visibility();
+                               },
+                                 icon: authController.isVisibilty
+                                     ? Icon(Icons.visibility_off_outlined, size: 19)
+                                     : Icon(
+                                   Icons.visibility_outlined,
+                                   size: 19,
+                                 ),
+                                 color: Colors.black,
+                               ),
                                    hintText: 'Password',
                                  ),
                                ),

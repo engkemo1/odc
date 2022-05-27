@@ -1,9 +1,9 @@
 
-import 'package:odc/models/Category.dart';
+import 'package:odc/models/Category_model.dart';
 
 class Courses {
   String? success;
-  List<Data>? data;
+  List<CoursesData>? data;
   String? message;
 
   Courses({this.success, this.data, this.message});
@@ -11,9 +11,9 @@ class Courses {
   Courses.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <CoursesData>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new CoursesData.fromJson(v));
       });
     }
     message = json['message'];
@@ -32,7 +32,7 @@ class Courses {
   }
 }
 
-class Data {
+class CoursesData {
   int? id;
   String? course_name;
   String? course_level;
@@ -46,8 +46,9 @@ class Data {
   String? image_url;
   String? createdAt;
   List<CategoryModel>? Category;
+  Admin? admin;
 
-  Data(
+  CoursesData(
       {this.id,
         this.course_level,
         this.course_name,
@@ -60,9 +61,10 @@ class Data {
         this.finalProject,
         this.image_url,
         this.createdAt,
-        this.Category});
+        this.Category,
+        this.admin});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  CoursesData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     course_name = json['course_name'];
     course_level = json['course_level'];
@@ -81,6 +83,8 @@ class Data {
       json['data'].forEach((v) {
         Category!.add(new CategoryModel.fromJson(v));
       });
+      admin = json['Admin'] != null ? new Admin.fromJson(json['Admin']) : null;
+
     }
   }
 
@@ -99,9 +103,54 @@ class Data {
     data['created_at'] = this.createdAt;
     if (this.Category != null) {
       data['Category'] = this.Category!.map((v) => v).toList();
+    };
+    if (this.admin != null) {
+      data['Admin'] = this.admin!.toJson();
     }
 
     ;
+    return data;
+  }
+}
+class Category {
+  int? id;
+  String? categoryName;
+  String? imageUrl;
+
+  Category({this.id, this.categoryName, this.imageUrl});
+
+  Category.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    categoryName = json['category_name'];
+    imageUrl = json['image_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['category_name'] = this.categoryName;
+    data['image_url'] = this.imageUrl;
+    return data;
+  }
+}
+
+
+
+class Admin {
+  String? adminName;
+  String? email;
+
+  Admin({this.adminName, this.email});
+
+  Admin.fromJson(Map<String, dynamic> json) {
+    adminName = json['admin_name'];
+    email = json['email'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['admin_name'] = this.adminName;
+    data['email'] = this.email;
     return data;
   }
 }

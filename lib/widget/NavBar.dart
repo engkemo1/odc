@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:odc/Profile.dart';
+import 'package:odc/views/Profile.dart';
 import 'package:odc/views/Catigories.dart';
 import 'package:odc/views/Courses/MyCourses.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';

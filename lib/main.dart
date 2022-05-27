@@ -1,49 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:odc/views/Authentication/SignUp.dart';
-import 'package:odc/views/Authentication/LogIn.dart';
-import 'package:odc/views/Catigories.dart';
-import 'package:odc/views/HomeScreen.dart';
-import 'package:odc/views/Courses/MyCourses.dart';
-import 'package:odc/views/Splash_Screen.dart';
-import 'package:odc/views/forgtPassword/CreatPassword.dart';
-import 'package:odc/views/forgtPassword/ForgetPassword.dart';
-import 'package:odc/views/forgtPassword/VerifyYourEmail.dart';
-import 'package:odc/widget/NavBar.dart';
-
+import 'package:get/get.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:odc/routes.dart';
+import 'controllers/auth.dart';
 import 'views/Courses/New_courses.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+  Get.put(AuthController());
 
   runApp( MyApp());
 }
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+    return    GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'ODC',
+      theme: ThemeData(
 
-        theme: ThemeData(
-
-          primarySwatch: Colors.blue,
-        ),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => SplashScreen(),
-          '/sign_in': (context) => SignIn(),
-          '/sign_up': (context) => SignUp(),
-          '/create_password': (context) => CreatePassword(),
-          '/verify_email': (context) => VerifyEmail(),
-          '/forget_password': (context) => ForgetPassword(),
-          '/home_screen':(context) => HomeScreen(),
-          '/nav_bar':(context) => NavBar(),
-          '/categories':(context) => Categories(),
-          '/my_courses':(context) => MyCourses(),
-          '/new_courses':(context) => NewCourses(),
-
-
-
-        }    );
+        primarySwatch: Colors.orange,
+      ),
+      getPages: Routes.routes,
+      initialRoute: Routes.splashScreen,
+//home:  SplashScreen(),
+    );
   }
 }
 
